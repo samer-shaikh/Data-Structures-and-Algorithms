@@ -1,5 +1,6 @@
 import ctypes
 
+# ----------------------------------- List --------------------------------------
 class Mylist:
     def __init__(self) -> None:
         self.size = 1
@@ -118,5 +119,202 @@ class Mylist:
         return sum_val 
         
 
+# ----------------------------------- Linked List --------------------------------------
+
+class Node:
+
+    def __init__(self,value):
+        self.data = value
+        self.next = None
+
+class LinkedList:
+
+    def __init__(self) -> None:
         
+        #creating the empty list
+        self.head = None
+
+        # No of nodes in LinkedList
+        self.n = 0
+
+    def insert_head(self,value):
+        
+        # creat the new head
+        new_head = Node(value)
+
+        new_head.next = self.head
+
+        self.head = new_head
+
+        self.n += 1
     
+    def len(self):
+        return self.n
+
+    def __str__(self) -> str:
+        curr = self.head
+        result = ''
+ 
+        while curr != None:
+            result = str(curr.data) + ' -> ' + result
+            curr = curr.next
+        
+        return '[' + result[:-4] + ']'
+    
+    def __getitem__(self, key):
+        
+        curr = self.head
+        pos = 0
+
+        if key < 0:
+            key = self.len() + key
+
+        while curr != None:
+            if pos == key:
+                return curr.data
+            curr = curr.next
+            pos += 1
+            
+        raise IndexError('Index out of range') 
+    
+    def __delitem__(self, key):
+        
+        if self.n-1 < key:
+            raise IndexError("Index out of range")
+        if key < 0:
+            key = self.n + key
+        if key == 0:
+            return self.remove_head()
+
+        pos = 0
+        curr = self.head
+        while curr != None:
+            if pos == key:
+                self.remove(curr.data)
+                return
+            curr = curr.next
+            pos += 1
+          
+    def add(self,value):
+
+        new_node = Node(value)
+        if self.head == None:
+            self.head = new_node            
+            self.n += 1
+            return       
+    
+        curr = self.head
+    
+        while curr.next != None:
+            curr = curr.next
+
+        curr.next = new_node
+        self.n += 1
+
+    def insert(self,after,value):
+
+        curr = self.head
+        new_node = Node(value)
+
+        while curr != None:
+            if curr.data == after:
+                break
+            curr = curr.next
+        
+        if curr != None:
+            new_node.next  = curr.next
+            curr.next = new_node
+            self.n += 1
+        else:
+            return 'Item not found'
+    
+    def clear(self):
+        self.head = None
+        self.n = 0
+
+    def remove_head(self):
+        if self.head == None:
+            return "The Linkedlist is empty"
+        self.head = self.head.next
+        self.n -= 1
+
+    def pop(self):
+
+        if self.head == None:
+            return 'the list is empty'
+
+        curr = self.head
+
+        if curr.next == None:
+            self.remove_head()
+            return
+
+        while curr.next.next != None:
+            curr = curr.next
+
+        curr.next = None
+        self.n -= 1
+
+    def remove(self,value):
+
+        if self.head.data == value:
+            return self.remove_head()
+        
+        if self.head == None:
+            return "The list is empty"
+
+        curr = self.head
+
+        while curr.next != None:
+            
+            if curr.next.data == value:
+                curr.next = curr.next.next     
+                curr = curr.next
+                self.n -=1
+                return 
+            curr = curr.next
+
+        return 'Item not found'
+    
+    def find(self, value):
+        
+        curr = self.head
+        pos = 0
+        while curr.next != None:
+            if curr.data == value:
+                return pos
+            pos += 1
+            curr = curr.next
+        
+        return "Item not found in Linked list."
+
+    def replace(self,index,val):
+        if self.n < index:
+            raise IndexError("Index out of range.")
+        if index < 0:
+            index = self.n + index
+        pos = 0
+        curr = self.head
+        while True:
+            if pos == index:
+                curr.data = val
+                return
+            curr = curr.next
+            pos += 1
+        
+    def max(self):
+        max_val = 0
+        curr = self.head
+
+        while curr.next != None:
+            if curr.data > max_val:
+                max_val = curr.data
+            curr = curr.next
+        return max_val
+    
+    def replace_max(self,val):
+        max_val = self.max()
+        max_index = self.find(max_val)
+        self.replace(max_index,val)
+
+            
