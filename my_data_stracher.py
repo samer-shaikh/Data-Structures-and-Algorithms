@@ -280,7 +280,7 @@ class LinkedList:
         
         curr = self.head
         pos = 0
-        while curr.next != None:
+        while curr != None:
             if curr.data == value:
                 return pos
             pos += 1
@@ -306,7 +306,7 @@ class LinkedList:
         max_val = 0
         curr = self.head
 
-        while curr.next != None:
+        while curr != None:
             if curr.data > max_val:
                 max_val = curr.data
             curr = curr.next
@@ -317,4 +317,116 @@ class LinkedList:
         max_index = self.find(max_val)
         self.replace(max_index,val)
 
-            
+# ----------------------------------- Stack --------------------------------------------
+
+class Stack:
+
+    def __init__(self) -> None:
+        self.top = None
+        self.n = 0
+
+    def __repr__(self) -> str:
+
+        if self.is_empty():
+            return "Stack is empty"
+        
+        res = ""
+        curr = self.top
+        while curr != None:
+            res = res + str(curr.data) + "->"
+            curr = curr.next
+        
+        return res[:-2]
+    
+    def __str__(self) -> str:
+
+        if self.is_empty():
+            return "Stack is empty"
+        res = ""
+        curr = self.top
+        while curr != None:
+            res = res + str(curr.data) + "->"
+            curr = curr.next
+        
+        return res[:-2]
+
+    def is_empty(self) -> bool:
+        return self.top == None
+    
+    def add(self,val):
+        new_node = Node(val)
+        new_node.next = self.top
+        self.top = new_node
+
+    def peek(self):
+
+        if self.is_empty():
+            return "Stack is empty"
+        
+        return self.top.data
+
+    def pop(self):
+        if self.is_empty():
+            return "Stack is empty"
+        pop_item = self.top.data
+        self.top = self.top.next
+        return pop_item
+    
+    def traverse(self):
+
+        curr = self.top
+
+        while curr != None:
+
+            print(curr.data)
+            curr = curr.next
+    
+# ----------------------------------- Queue -------------------------------------------
+
+class Queue:
+
+    def __init__(self) -> None:
+        self.front = None
+        self.rear = None
+
+    def is_empty(self):
+        return self.front == None
+    
+    def enqueue(self,val):
+
+        new_node = Node(val)
+
+        if self.is_empty():
+            self.front = new_node
+
+        self.rear.next = new_node
+        self.rear = self.rear.next
+
+    def dequeue(self):
+        if self.is_empty():
+            return "Queue is empty"
+        data = self.front.data
+        self.front = self.front.next
+        return data
+    
+    def peek(self):
+        if self.is_empty():
+            return "Queue is empty"
+        return self.front.data
+
+    def traverse(self):
+
+        if self.is_empty():
+            return "Queue is empty"
+        
+        curr = self.front
+
+        while curr != None:
+            print(curr.data,end=' ')
+            curr = curr.next
+
+    def clear(self):
+        self.front = None
+        self.rear = None
+
+
